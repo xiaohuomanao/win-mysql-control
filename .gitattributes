@@ -1,0 +1,6 @@
+# .bat / .cmd 必须保持 CRLF：
+# 用 -text 让 Git 原样存储（含 CRLF），这样 GitHub 的 "Download ZIP" 里也是 CRLF，
+# 不会出现 checkout 后被转成 LF 导致 goto/call 标签失效的问题。
+* text=auto
+*.bat -text
+*.cmd -text

@@ -1,6 +1,6 @@
 @echo off
 rem ==================================================================
-rem  mysql-service-control.bat  v1.0.1
+rem  mysql-service-control.bat  v1.0.2
 rem  Windows 上 MySQL / MariaDB 服务控制面板（单文件、零依赖）
 rem  双击运行会自动申请管理员权限。
 rem  License: MIT
@@ -8,7 +8,7 @@ rem ==================================================================
 chcp 936 >nul 2>&1
 setlocal EnableExtensions DisableDelayedExpansion
 
-set "APP_VER=1.0.1"
+set "APP_VER=1.0.2"
 set "BASE_DIR=%~dp0"
 if "%BASE_DIR:~-1%"=="\" set "BASE_DIR=%BASE_DIR:~0,-1%"
 set "CFG_FILE=%BASE_DIR%\mysql-svc.ini"
@@ -31,9 +31,9 @@ if /i "%ARG_CMD%"=="--help" goto :usage
 
 rem ---------------- 1. 无参数：进入交互菜单 ----------------
 if "%ARG_CMD%"=="" (
+    set "INTERACTIVE=1"
     call :resolve_service
     if errorlevel 1 exit /b 2
-    set "INTERACTIVE=1"
     call :ensure_admin
     if errorlevel 1 exit /b 1
     goto :menu
@@ -392,6 +392,11 @@ if defined C2 ( if /i "%C2%"=="%SVC%" (echo   * %C2%) else (echo     %C2%) )
 if defined C3 ( if /i "%C3%"=="%SVC%" (echo   * %C3%) else (echo     %C3%) )
 if defined C4 ( if /i "%C4%"=="%SVC%" (echo   * %C4%) else (echo     %C4%) )
 if defined C5 ( if /i "%C5%"=="%SVC%" (echo   * %C5%) else (echo     %C5%) )
+if defined C6 ( if /i "%C6%"=="%SVC%" (echo   * %C6%) else (echo     %C6%) )
+if defined C7 ( if /i "%C7%"=="%SVC%" (echo   * %C7%) else (echo     %C7%) )
+if defined C8 ( if /i "%C8%"=="%SVC%" (echo   * %C8%) else (echo     %C8%) )
+if defined C9 ( if /i "%C9%"=="%SVC%" (echo   * %C9%) else (echo     %C9%) )
+if defined MORE echo   ... 候选超过 9 个，只显示前 9 个
 exit /b 0
 
 
@@ -473,6 +478,11 @@ set "C2="
 set "C3="
 set "C4="
 set "C5="
+set "C6="
+set "C7="
+set "C8="
+set "C9="
+set "MORE="
 set "CNT=0"
 set "SCAN_TMP=%TEMP%\msc_scan_%RANDOM%%RANDOM%.tmp"
 sc query state= all > "%SCAN_TMP%" 2>nul
@@ -493,6 +503,12 @@ if not defined C1 (set "C1=%T%" & set /a CNT+=1 & exit /b)
 if not defined C2 (set "C2=%T%" & set /a CNT+=1 & exit /b)
 if not defined C3 (set "C3=%T%" & set /a CNT+=1 & exit /b)
 if not defined C4 (set "C4=%T%" & set /a CNT+=1 & exit /b)
+if not defined C5 (set "C5=%T%" & set /a CNT+=1 & exit /b)
+if not defined C6 (set "C6=%T%" & set /a CNT+=1 & exit /b)
+if not defined C7 (set "C7=%T%" & set /a CNT+=1 & exit /b)
+if not defined C8 (set "C8=%T%" & set /a CNT+=1 & exit /b)
+if not defined C9 (set "C9=%T%" & set /a CNT+=1 & exit /b)
+set "MORE=1"
 exit /b
 
 
@@ -503,6 +519,12 @@ if defined C1 echo   1) %C1%
 if defined C2 echo   2) %C2%
 if defined C3 echo   3) %C3%
 if defined C4 echo   4) %C4%
+if defined C5 echo   5) %C5%
+if defined C6 echo   6) %C6%
+if defined C7 echo   7) %C7%
+if defined C8 echo   8) %C8%
+if defined C9 echo   9) %C9%
+if defined MORE echo   ... 候选超过 9 个，只显示前 9 个；可用参数直接指定服务名
 echo   0) 取消
 echo.
 if not defined INTERACTIVE (
@@ -518,6 +540,11 @@ if "%PICK%"=="1" if defined C1 (set "SVC=%C1%" & exit /b 0)
 if "%PICK%"=="2" if defined C2 (set "SVC=%C2%" & exit /b 0)
 if "%PICK%"=="3" if defined C3 (set "SVC=%C3%" & exit /b 0)
 if "%PICK%"=="4" if defined C4 (set "SVC=%C4%" & exit /b 0)
+if "%PICK%"=="5" if defined C5 (set "SVC=%C5%" & exit /b 0)
+if "%PICK%"=="6" if defined C6 (set "SVC=%C6%" & exit /b 0)
+if "%PICK%"=="7" if defined C7 (set "SVC=%C7%" & exit /b 0)
+if "%PICK%"=="8" if defined C8 (set "SVC=%C8%" & exit /b 0)
+if "%PICK%"=="9" if defined C9 (set "SVC=%C9%" & exit /b 0)
 exit /b 1
 
 
